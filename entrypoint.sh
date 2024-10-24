@@ -90,6 +90,9 @@ ansible::lint() {
   local opts
   opts=$(parse_args $@ || exit 1)
 
+  # Workaround https://github.com/actions/runner-images/issues/6775
+  git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
   # Enable recursive glob patterns, such as '**/*.yml'.
   shopt -s globstar
   ansible-lint -v --force-color $opts ${TARGETS}
